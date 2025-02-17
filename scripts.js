@@ -217,3 +217,9 @@ function toggleLogs(key) {
         logListDiv.style.display = 'none';
     }
 }
+
+// 日誌タブに切り替える関数
+function goToDiaryTab() {
+    const diaryTabButton = document.querySelector('.tab-button[data-tab="diary"]');
+    switchTab({ currentTarget: diaryTabButton }, 'diary');
+}
