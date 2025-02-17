@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label for="temperature">体温 (℃):</label>
-                <input type="number" id="temperature" name="temperature" step="0.1" required>
+                <input type="number" id="temperature" name="temperature" step="0.1" value="36.5" required>
             </div>
             <div class="form-group">
                 <label for="sleep">睡眠時間 (時間):</label>
@@ -34,6 +34,7 @@
             <button type="submit">送信</button>
         </form>
         <canvas id="temperatureChart"></canvas>
+        <canvas id="sleepChart"></canvas>
     </div>
     <script src="script.js"></script>
 </body>

@@ -15,10 +15,11 @@ document.getElementById('health-form').addEventListener('submit', function(event
 
     // グラフにデータを追加
     addTemperatureData(date, temperature);
+    addSleepData(date, sleep);
 });
 
-const ctx = document.getElementById('temperatureChart').getContext('2d');
-const temperatureChart = new Chart(ctx, {
+const temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
+const temperatureChart = new Chart(temperatureCtx, {
     type: 'line',
     data: {
         labels: [],
@@ -51,8 +52,48 @@ const temperatureChart = new Chart(ctx, {
     }
 });
 
+const sleepCtx = document.getElementById('sleepChart').getContext('2d');
+const sleepChart = new Chart(sleepCtx, {
+    type: 'bar',
+    data: {
+        labels: [],
+        datasets: [{
+            label: '睡眠時間 (時間)',
+            data: [],
+            backgroundColor: 'rgba(30, 144, 255, 0.2)',
+            borderColor: '#1e90ff',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: '日付'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: '睡眠時間 (時間)'
+                },
+                suggestedMin: 0,
+                suggestedMax: 12
+            }
+        }
+    }
+});
+
 function addTemperatureData(date, temperature) {
     temperatureChart.data.labels.push(date);
     temperatureChart.data.datasets[0].data.push(temperature);
     temperatureChart.update();
+}
+
+function addSleepData(date, sleep) {
+    sleepChart.data.labels.push(date);
+    sleepChart.data.datasets[0].data.push(sleep);
+    sleepChart.update();
 }
