@@ -6,6 +6,7 @@
     <title>モチベーションログ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav>
@@ -117,6 +118,34 @@
                     </div>
                 </div>
             </div>
+            <div class="container">
+                <h1>体調管理</h1>
+                <form id="health-form">
+                    <div class="form-group">
+                        <label for="date">日付:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="temperature">体温 (℃):</label>
+                        <input type="number" id="temperature" name="temperature" step="0.1" value="36.5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sleep">睡眠時間 (時間):</label>
+                        <input type="number" id="sleep" name="sleep" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mood">気分:</label>
+                        <select id="mood" name="mood" required>
+                            <option value="良い">良い</option>
+                            <option value="普通">普通</option>
+                            <option value="悪い">悪い</option>
+                        </select>
+                    </div>
+                    <button type="submit">送信</button>
+                </form>
+                <canvas id="temperatureChart" width="1200" height="600"></canvas>
+                <canvas id="sleepChart" width="1200" height="600"></canvas>
+            </div>
         </div>
 
         <div id="reflectionTab" class="tab-content">
@@ -129,47 +158,6 @@
         </div>
     </div>
 
-    <script>
-        function toggleNewEntryForm() {
-            const form = document.getElementById('newEntryForm');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function switchTab(tabName) {
-            // タブボタンのアクティブ状態を更新
-            const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(button => button.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            // タブコンテンツの表示を切り替え
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-            document.getElementById(`${tabName}Tab`).classList.add('active');
-        }
-
-        function submitEntry(event) {
-            event.preventDefault();
-            
-            // フォームデータの取得
-            const data = {
-                motivation: document.getElementById('motivationLevel').value,
-                sleep: document.getElementById('sleepQuality').value,
-                mood: document.getElementById('mood').value,
-                energy: document.getElementById('energy').value,
-                diary: document.getElementById('diaryEntry').value,
-                reflection: document.getElementById('reflection').value,
-                date: new Date().toLocaleDateString('ja-JP')
-            };
-
-            // ここでデータを保存したり処理したりする
-            console.log('送信されたデータ:', data);
-
-            // フォームを閉じる
-            toggleNewEntryForm();
-            
-            // フォームをリセット
-            event.target.reset();
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
