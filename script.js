@@ -35,6 +35,10 @@ const temperatureChart = new Chart(temperatureCtx, {
         responsive: true,
         scales: {
             x: {
+                type: 'time',
+                time: {
+                    unit: 'week'
+                },
                 title: {
                     display: true,
                     text: '日付'
@@ -69,6 +73,10 @@ const sleepChart = new Chart(sleepCtx, {
         responsive: true,
         scales: {
             x: {
+                type: 'time',
+                time: {
+                    unit: 'week'
+                },
                 title: {
                     display: true,
                     text: '日付'
@@ -97,3 +105,23 @@ function addSleepData(date, sleep) {
     sleepChart.data.datasets[0].data.push(sleep);
     sleepChart.update();
 }
+
+// 月ごとにデータを保存する機能
+function saveMonthlyData() {
+    const temperatureData = temperatureChart.data.datasets[0].data;
+    const sleepData = sleepChart.data.datasets[0].data;
+
+    // ここでデータを保存するロジックを追加できます
+    console.log('Monthly Temperature Data:', temperatureData);
+    console.log('Monthly Sleep Data:', sleepData);
+}
+
+// 毎月1日にデータを保存する
+const now = new Date();
+const firstDayOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+const timeUntilNextMonth = firstDayOfNextMonth - now;
+
+setTimeout(function() {
+    saveMonthlyData();
+    setInterval(saveMonthlyData, 30 * 24 * 60 * 60 * 1000); // 30日ごとに保存
+}, timeUntilNextMonth);
