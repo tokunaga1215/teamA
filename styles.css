@@ -1,58 +1,4 @@
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #fffbe6;
-}
-
-h1, h2 {
-    color: #333;
-}
-
-#logForm {
-    margin-bottom: 20px;
-}
-
-#logEntry {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #fffacd;
-    border: 1px solid #ffd700;
-}
-
-button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    cursor: pointer;
-    background-color: #ffd700;
-    border: none;
-    color: #333;
-}
-
-.log-group {
-    margin-bottom: 20px;
-}
-
-.log-group h3 {
-    cursor: pointer;
-    background-color: #ffd700;
-    padding: 10px;
-    margin: 0;
-}
-
-.log-list {
-    padding: 10px;
-    background-color: #fffacd;
-    border: 1px solid #ffd700;
-}
-
-.log-entry {
-    border: 1px solid #ffd700;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #fffacd;
-
+/* 全体のリセットと基本スタイル */
 * {
     margin: 0;
     padding: 0;
@@ -294,4 +240,42 @@ h1 {
     .health-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* 日誌機能のスタイル */
+#logForm {
+    margin-bottom: 20px;
+}
+
+#logEntry {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #cceeff;
+    border: 1px solid #3399ff;
+}
+
+.log-group {
+    margin-bottom: 20px;
+}
+
+.log-group h3 {
+    cursor: pointer;
+    background-color: #3399ff;
+    padding: 10px;
+    margin: 0;
+    color: #fff;
+}
+
+.log-list {
+    padding: 10px;
+    background-color: #cceeff;
+    border: 1px solid #3399ff;
+}
+
+.log-entry {
+    border: 1px solid #3399ff;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #cceeff;
 }
