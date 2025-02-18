@@ -20,6 +20,9 @@ document.getElementById('health-form').addEventListener('submit', function(event
     console.log('Sleep:', sleep);
     console.log('Mood:', mood);
 
+    // データを保存
+    saveHealthData(date, temperature, sleep, mood);
+
     // グラフにデータを追加
     addTemperatureData(date, temperature);
     addSleepData(date, sleep);
@@ -123,6 +126,12 @@ function addSleepData(date, sleep) {
     sleepChart.data.labels.push(date);
     sleepChart.data.datasets[0].data.push(sleep);
     sleepChart.update();
+}
+
+function saveHealthData(date, temperature, sleep, mood) {
+    const healthData = JSON.parse(localStorage.getItem('healthData')) || [];
+    healthData.push({ date, temperature, sleep, mood });
+    localStorage.setItem('healthData', JSON.stringify(healthData));
 }
 
 function updateAverageMotivation() {
