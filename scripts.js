@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const today = new Date().toISOString().split('T')[0];
     dateInput.value = today;
     displayLogs(); // 日誌の表示を初期化
+    displayHealthData(); // 体調管理データの表示を初期化
+    calculateAverageMotivation(); // 平均モチベーションの計算を初期化
 });
 
 document.getElementById('health-form').addEventListener('submit', function(event) {
@@ -29,6 +31,18 @@ document.getElementById('health-form').addEventListener('submit', function(event
 
     // 平均モチベーションを更新
     updateAverageMotivation();
+});
+
+document.getElementById('homeButton').addEventListener('click', function() {
+    const mood = document.getElementById('mood').value;
+    const sleep = document.getElementById('sleep').value;
+
+    // ホームページに反映するためのデータを保存
+    localStorage.setItem('todayMood', mood);
+    localStorage.setItem('todaySleep', sleep);
+
+    alert('データがホームページに反映されました。');
+    window.location.href = 'home.html'; // ホームページにリダイレクト
 });
 
 const temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
@@ -112,10 +126,15 @@ function addSleepData(date, sleep) {
 }
 
 function updateAverageMotivation() {
-    const moodValues = sleepChart.data.datasets[0].data;
-    const total = moodValues.reduce((acc, val) => acc + parseFloat(val), 0);
-    const average = (total / moodValues.length).toFixed(1);
-    document.getElementById('averageMotivation').textContent = `${average}/10`;
+    const healthData = JSON.parse(localStorage.getItem('healthData')) || [];
+    const moodValues = healthData.map(data => parseInt(data.mood, 10));
+    if (moodValues.length === 0) {
+        document.getElementById('averageMotivation').textContent = '0/10';
+        return;
+    }
+    const totalMood = moodValues.reduce((acc, val) => acc + val, 0);
+    const averageMood = Math.round(totalMood / moodValues.length); // 小数点なしで表示
+    document.getElementById('averageMotivation').textContent = `${averageMood}/10`;
 }
 
 function switchTab(event, tabName) {

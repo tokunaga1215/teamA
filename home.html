@@ -32,25 +32,19 @@
         </div>
 
         <div class="tab-buttons">
-            <a href="log.html" class="tab-button active">
+            <a href="log.html" class="tab-button">
                 <i class="fas fa-book"></i> 日誌
             </a>
-            <button class="tab-button" data-tab="health" onclick="switchTab(event, 'health')">
+            <a href="health.html" class="tab-button">
                 <i class="fas fa-heartbeat"></i> 体調管理
-            </button>
-            <button class="tab-button" data-tab="reflection" onclick="switchTab(event, 'reflection')">
+            </a>
+            <a href="reflection.html" class="tab-button">
                 <i class="fas fa-chevron-down"></i> 振り返り
-            </button>
+            </a>
         </div>
 
         <div id="diaryTab" class="tab-content active">
-            <div class="log-entry">
-                <div class="log-entry-header">
-                    <h3><i class="fas fa-calendar"></i> 2025年2月17日</h3>
-                    <div>モチベーション: 8/10</div>
-                </div>
-                <p>今日は新しいプロジェクトを開始。チームの雰囲気も良く、やる気に満ちている。</p>
-            </div>
+            <!-- 指定された部分を削除 -->
         </div>
 
         <div id="healthTab" class="tab-content">
@@ -91,5 +85,112 @@
     </div>
 
     <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 保存されたモチベーションと睡眠の質を表示
+            const todayMood = localStorage.getItem('todayMood') || '0';
+            const todaySleep = localStorage.getItem('todaySleep') || '0';
+
+            document.getElementById('todayMotivation').textContent = `${todayMood}/10`;
+            document.getElementById('todaySleepQuality').textContent = `${todaySleep}/10`;
+
+            // 保存された体調管理データを表示
+            displayHealthData();
+
+            // 平均モチベーションを計算して表示
+            calculateAverageMotivation();
+        });
+
+        function displayHealthData() {
+            const healthData = JSON.parse(localStorage.getItem('healthData')) || [];
+            const temperatureChart = document.getElementById('temperatureChart').getContext('2d');
+            const sleepChart = document.getElementById('sleepChart').getContext('2d');
+
+            const temperatureData = {
+                labels: [],
+                datasets: [{
+                    label: '体温 (℃)',
+                    data: [],
+                    borderColor: '#1e90ff',
+                    backgroundColor: 'rgba(30, 144, 255, 0.2)',
+                    fill: true,
+                }]
+            };
+
+            const sleepData = {
+                labels: [],
+                datasets: [{
+                    label: '睡眠時間 (時間)',
+                    data: [],
+                    backgroundColor: 'rgba(30, 144, 255, 0.2)',
+                    borderColor: '#1e90ff',
+                    borderWidth: 1
+                }]
+            };
+
+            healthData.forEach(data => {
+                temperatureData.labels.push(data.date);
+                temperatureData.datasets[0].data.push(data.temperature);
+                sleepData.labels.push(data.date);
+                sleepData.datasets[0].data.push(data.sleep);
+            });
+
+            new Chart(temperatureChart, {
+                type: 'line',
+                data: temperatureData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '日付'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '体温 (℃)'
+                            },
+                            suggestedMin: 35,
+                            suggestedMax: 40
+                        }
+                    }
+                }
+            });
+
+            new Chart(sleepChart, {
+                type: 'bar',
+                data: sleepData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '日付'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '睡眠時間 (時間)'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 12
+                        }
+                    }
+                }
+            });
+        }
+
+        function calculateAverageMotivation() {
+            const healthData = JSON.parse(localStorage.getItem('healthData')) || [];
+            const moodValues = healthData.map(data => parseInt(data.mood, 10));
+            const totalMood = moodValues.reduce((acc, val) => acc + val, 0);
+            const averageMood = Math.round(totalMood / moodValues.length); // 小数点なしで表示
+            document.getElementById('averageMotivation').textContent = `${averageMood}/10`;
+        }
+    </script>
 </body>
 </html>
