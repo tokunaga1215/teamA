@@ -5,20 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>振り返り</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></script>
 </head>
 <body>
     <h1>振り返り</h1>
     <div class="container">
         <div class="log-entry">
             <div class="log-entry-header">
-                <h3><i class="fas fa-calendar"></i> 2025年2月17日</h3>
+                <h3><i class="fas fa-calendar"></i> <span id="reflectionDate"></span></h3>
             </div>
-            <p>目標達成に向けて順調に進んでいる。時間管理をより意識して取り組みたい。</p>
+            <p id="reflectionMessage">モチベーションに合わせたメッセージがここに表示されます。</p>
         </div>
     </div>
     <br>
     <a href="home.html" class="button">ホームに戻る</a>
 
     <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toLocaleDateString('ja-JP', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('reflectionDate').textContent = today;
+
+            const todayMood = parseInt(localStorage.getItem('todayMood'), 10) || 0;
+            const reflectionMessage = document.getElementById('reflectionMessage');
+
+            if (todayMood >= 8) {
+                reflectionMessage.textContent = '今日はとてもやる気に満ちていました。引き続きこの調子で頑張りましょう！';
+            } else if (todayMood >= 5) {
+                reflectionMessage.textContent = '今日はまずまずのモチベーションでした。明日はもっと頑張りましょう！';
+            } else {
+                reflectionMessage.textContent = '今日はあまりやる気が出ませんでした。リフレッシュして明日に備えましょう。';
+            }
+        });
+    </script>
 </body>
 </html>
